@@ -1,12 +1,13 @@
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:test_flutter_app/src/presentation/views/breaking_news_view.dart';
 
 class AppRoutes {
   static Route onGenerateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _materialRoute(const Scaffold());
+        return _materialRoute(const BreqakingNewsView()); //Scaffold());
       case '/details':
         return _materialRoute(const Text('jjflkdsajflkjalksd'));
       default:
