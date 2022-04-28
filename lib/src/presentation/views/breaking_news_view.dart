@@ -9,7 +9,7 @@ import 'package:test_flutter_app/src/domain/entities/article.dart';
 import 'package:test_flutter_app/src/presentation/blocs/remote_articles/remote_articles_bloc.dart';
 
 class BreqakingNewsView extends HookWidget {
-  const BreqakingNewsView({required Key key}) : super(key: key);
+  const BreqakingNewsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
