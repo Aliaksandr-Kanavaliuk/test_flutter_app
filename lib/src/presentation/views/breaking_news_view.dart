@@ -1,24 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
+//import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:mobx/mobx.dart';
+//import 'package:flutter_hooks/flutter_hooks.dart';
+//import 'package:flutter_hooks/flutter_hooks.dart';
+//import 'package:mobx/mobx.dart';
 import 'package:test_flutter_app/src/core/bloc/bloc_with_state.dart';
+import 'package:test_flutter_app/src/core/usecases/usecase.dart';
 import 'package:test_flutter_app/src/domain/entities/article.dart';
 import 'package:test_flutter_app/src/presentation/blocs/remote_articles/remote_articles_bloc.dart';
+import 'package:test_flutter_app/src/presentation/widgets/article_widget.dart';
 
-class BreqakingNewsView extends HookWidget {
-  const BreqakingNewsView({Key? key}) : super(key: key);
+class BreqakingNewsView extends StatelessWidget {
+  //HookWidget {
+  const BreqakingNewsView({Key? key}) : super(key: key ?? const Key('value'));
 
   @override
   Widget build(BuildContext context) {
-    final scrollController = useScrollController();
+    final scrollController = ScrollController(); //useScrollController();
 
     // useEffect(() {
-    //   scrollController.addListener(() => _onScrollListener(context, scrollController));
+    //   scrollController
+    //       .addListener(() => _onScrollListener(context, scrollController));
     //   return scrollController.dispose;
     // }, [scrollController]);
+
+    void _onScrollListener(BuildContext context, ScrollController controller) {
+      // final maxScroll = controller.position.maxScrollExtent;
+      //final currentScroll = controller.position.pixels;
+      final remoteArticleBloc = BlocProvider.of<RemoteArticlesBloc>(context);
+      final state = remoteArticleBloc.blocProcessState;
+      if ( //currentScroll == maxScroll &&
+          state == BlocProcessState.idle) {
+        remoteArticleBloc.add(const GetArticles());
+      }
+    }
+
     void _onShowSavedArticlesViewTapped(BuildContext context) {
       Navigator.pushNamed(context, '/SavedArticlesView');
     }
@@ -65,7 +82,7 @@ class BreqakingNewsView extends HookWidget {
             artiles.map(
               (e) => Builder(
                 builder: (context) => ArticleWidget(
-                  artile: e,
+                  article: e,
                   onArticlePressed: (e) => _onArticlePressed(context, e),
                 ),
               ),
@@ -88,7 +105,12 @@ class BreqakingNewsView extends HookWidget {
       return BlocBuilder<RemoteArticlesBloc, RemotteArticlesState>(
         builder: (_, state) {
           if (state is RemoteArticlesLoading) {
-            return const Center(child: CupertinoActivityIndicator());
+            _onScrollListener(context, scrollController);
+            return const Center(
+              //child: _buildArticle(scrollController, artiles, true),
+              child: ArticleWidget(),
+              //child: CupertinoActivityIndicator(),
+            );
           }
           if (state is RemoteArticlesError) {
             return const Center(
@@ -100,26 +122,17 @@ class BreqakingNewsView extends HookWidget {
             return _buildArticle(
                 scrollController, state.articles!, state.noMoreData!);
           }
+          // UseCase();
           return const SizedBox();
         },
       );
     }
 
-    void _onScrollListener(BuildContext context, ScrollController controller) {
-      final maxScroll = controller.position.maxScrollExtent;
-      final currentScroll = controller.position.pixels;
-      final remoteArticleBloc = BlocProvider.of<RemoteArticlesBloc>(context);
-      final state = remoteArticleBloc.blocProcessState;
-      if (currentScroll == maxScroll && state == BlocProcessState.idle) {
-        remoteArticleBloc.add(const GetArticles());
-      }
-    }
-
-    useEffect(() {
-      scrollController
-          .addListener(() => _onScrollListener(context, scrollController));
-      return scrollController.dispose;
-    }, [scrollController]);
+    // useEffect(() {
+    //   scrollController
+    //       .addListener(() => _onScrollListener(context, scrollController));
+    //   return scrollController.dispose;
+    // }, [scrollController]);
 
     return Scaffold(
       appBar: _buildAppbar(), //AppBar(),

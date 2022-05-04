@@ -23,7 +23,7 @@ class RemoteArticlesBloc
   int _page = 1;
   static const int _pageSize = 20;
 
-  @override
+  //@override
   Stream<RemotteArticlesState> mapEventToState(
       RemoteArticlesEvent event) async* {
     if (event is GetArticles) {
@@ -32,7 +32,7 @@ class RemoteArticlesBloc
     }
   }
 
-  // GetArticles newMethod(GetArticles event) => event;
+  //GetArticles newMethod(GetArticles event) => event;
 
   Stream<RemotteArticlesState> _getBreakingNewsArticle(
       RemoteArticlesEvent event) async* {

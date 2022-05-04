@@ -1,7 +1,11 @@
-import 'dart:html';
+//import 'dart:html';
+
+// import 'dart:_internal';
+
+import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:retrofit/dio.dart';
+//import 'package:retrofit/dio.dart';
 import 'package:test_flutter_app/src/data/datasources/remote/news_api_service.dart';
 import 'package:test_flutter_app/src/domain/entities/article.dart';
 import 'package:test_flutter_app/src/core/resources/data_state.dart';

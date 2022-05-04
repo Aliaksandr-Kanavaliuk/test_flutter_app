@@ -109,7 +109,7 @@ class ArticleWidget extends StatelessWidget {
         child: Row(
           children: [
             _buildImage(context),
-            _buildTitlendDescription(),
+            //_buildTitlendDescription(),
             _buildRemovableArea(),
           ],
         ),

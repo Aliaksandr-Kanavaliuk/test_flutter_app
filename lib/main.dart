@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_flutter_app/src/config/routes/app_routes.dart';
@@ -8,6 +9,9 @@ import 'package:test_flutter_app/src/presentation/blocs/remote_articles/remote_a
 import 'src/core/utils/const.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDependancies();
+
   runApp(MyApp());
 }
 
@@ -15,11 +19,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RemoteArticlesBloc>(
-        create: (_) => injector()..add(const GetArticles()),
+        // create: (context) {
+        //   final _injectorT = injector();
+        //   _injectorT..add();
+        //   return injector();
+        // },
+        // create: (_) => injector()..add(const GetArticles()),
+        create: (_) =>
+            injector.get<RemoteArticlesBloc>(), //..add(const GetArticles()),
         child: MaterialApp(
-          debugShowCheckedModeBanner: true,
+          // debugShowCheckedModeBanner: false, //true,
+          // home: ,
           title: kMaterialAppTitle,
-          onGenerateInitialRoutes: AppRoutes.onGenerateRoutes(),
+          initialRoute: '/',
+          // onGenerateRoute
+          //onGenerateInitialRoutes
+          onGenerateRoute: (routheSetting) {
+            return AppRoutes.onGenerateRoutes(routheSetting);
+          },
           theme: AppTheme.Light,
         ));
     // return MaterialApp(
@@ -27,7 +44,6 @@ class MyApp extends StatelessWidget {
     //   onGenerateRoute: AppRoutes.onGenerateRoutes,
     //   theme: AppTheme.Light,
     // );
-    // TODO: implement build
     // throw UnimplementedError();
   }
 }
