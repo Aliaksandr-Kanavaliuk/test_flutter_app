@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //import 'package:flutter_hooks/flutter_hooks.dart';
 //import 'package:flutter_hooks/flutter_hooks.dart';
+//import 'package:flutter_hooks/flutter_hooks.dart';
 //import 'package:mobx/mobx.dart';
 import 'package:test_flutter_app/src/core/bloc/bloc_with_state.dart';
 import 'package:test_flutter_app/src/core/usecases/usecase.dart';
@@ -19,12 +20,6 @@ class BreqakingNewsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final scrollController = ScrollController(); //useScrollController();
 
-    // useEffect(() {
-    //   scrollController
-    //       .addListener(() => _onScrollListener(context, scrollController));
-    //   return scrollController.dispose;
-    // }, [scrollController]);
-
     void _onScrollListener(BuildContext context, ScrollController controller) {
       // final maxScroll = controller.position.maxScrollExtent;
       //final currentScroll = controller.position.pixels;
@@ -32,7 +27,7 @@ class BreqakingNewsView extends StatelessWidget {
       final state = remoteArticleBloc.blocProcessState;
       if ( //currentScroll == maxScroll &&
           state == BlocProcessState.idle) {
-        remoteArticleBloc.add(const GetArticles());
+        remoteArticleBloc.add(const RemoteArticlesEvent.getArticles());
       }
     }
 
@@ -44,7 +39,9 @@ class BreqakingNewsView extends StatelessWidget {
       BuildContext context,
       Article article,
     ) {
-      Navigator.pushNamed(context, '/ArticleDetailView', arguments: article);
+      // arguments: {'mortgageModel': mortgageModel}
+      Navigator.pushNamed(context, '/ArticleDetailView',
+          arguments: {'article': article});
     }
 
     PreferredSizeWidget _buildAppbar() {
@@ -75,6 +72,9 @@ class BreqakingNewsView extends StatelessWidget {
       List<Article> artiles,
       bool noMoreData,
     ) {
+      scrollController
+          .addListener(() => _onScrollListener(context, scrollController));
+
       return ListView(
         controller: scrollController,
         children: [
@@ -104,19 +104,18 @@ class BreqakingNewsView extends StatelessWidget {
       // return _buildArticle(scrollController);
       return BlocBuilder<RemoteArticlesBloc, RemotteArticlesState>(
         builder: (_, state) {
-          if (state is RemoteArticlesLoading) {
-            _onScrollListener(context, scrollController);
+          if (state is RemoteArticlesLoadingState) {
+            //_onScrollListener(context, scrollController);
             return const Center(
-              //child: _buildArticle(scrollController, artiles, true),
-              child: ArticleWidget(),
-              //child: CupertinoActivityIndicator(),
+              child: CupertinoActivityIndicator(),
             );
           }
-          if (state is RemoteArticlesError) {
+          if (state is RemoteArticlesErrorState) {
             return const Center(
-                child: Icon(Icons.refresh)); //Ionicons.refresh));
+                child:
+                    InkWell(child: Icon(Icons.refresh))); //Ionicons.refresh));
           }
-          if (state is RemoteArticlesDone &&
+          if (state is RemoteArticlesDoneState &&
               state.articles != null &&
               state.noMoreData != null) {
             return _buildArticle(

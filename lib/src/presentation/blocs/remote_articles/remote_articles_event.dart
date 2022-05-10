@@ -2,13 +2,20 @@
 
 part of 'remote_articles_bloc.dart';
 
-abstract class RemoteArticlesEvent extends Equatable {
-  const RemoteArticlesEvent();
-
-  @override
-  List<Object> get props => [];
+@freezed
+class RemoteArticlesEvent with _$RemoteArticlesEvent {
+  const factory RemoteArticlesEvent.getArticles() = _GetArticlesEvent;
 }
 
-class GetArticles extends RemoteArticlesEvent {
-  const GetArticles();
-}
+
+
+// abstract class RemoteArticlesEvent extends Equatable {
+//   const RemoteArticlesEvent();
+
+//   @override
+//   List<Object> get props => [];
+// }
+
+// class GetArticles extends RemoteArticlesEvent {
+//   const GetArticles();
+// }

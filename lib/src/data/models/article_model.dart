@@ -1,4 +1,4 @@
-import 'package:flutter/semantics.dart';
+//import 'package:flutter/semantics.dart';
 import 'package:test_flutter_app/src/data/models/source_model.dart';
 import 'package:test_flutter_app/src/domain/entities/article.dart';
 

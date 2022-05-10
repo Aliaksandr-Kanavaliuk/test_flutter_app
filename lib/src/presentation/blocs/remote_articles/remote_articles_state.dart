@@ -5,26 +5,47 @@
 
 part of 'remote_articles_bloc.dart';
 
-abstract class RemotteArticlesState extends Equatable {
-  final List<Article>? articles;
-  final bool? noMoreData;
-  final DioError? error;
-
-  RemotteArticlesState({this.articles, this.error, this.noMoreData});
-
-  @override
-  List<Object> get props => [articles!, noMoreData!, error!];
+@freezed
+class RemotteArticlesState with _$RemotteArticlesState {
+  const factory RemotteArticlesState.loading() = RemoteArticlesLoadingState;
+  const factory RemotteArticlesState.done(
+      {required List<Article> articles,
+      required bool noMoreData}) = RemoteArticlesDoneState;
+  const factory RemotteArticlesState.error(DioError error) =
+      RemoteArticlesErrorState;
+  const factory RemotteArticlesState.currentInactivityTime({
+    required String currentInactivityTime,
+  }) = GetInactivityTimeState;
 }
 
-class RemoteArticlesLoading extends RemotteArticlesState {
-  RemoteArticlesLoading();
-}
+// abstract class RemotteArticlesState {
+//   //extends Equatable {
+//   final List<Article>? articles;
+//   final bool? noMoreData;
+//   final DioError? error;
 
-class RemoteArticlesDone extends RemotteArticlesState {
-  RemoteArticlesDone(List<Article> articles, {bool? noMoreData})
-      : super(articles: articles, noMoreData: noMoreData!);
-}
+//   RemotteArticlesState({
+//     required this.articles,
+//     required this.error,
+//     required this.noMoreData,
+//   });
 
-class RemoteArticlesError extends RemotteArticlesState {
-  RemoteArticlesError(DioError error) : super(error: error);
-}
+//   // @override
+//   // List<Object> get props => [articles!, noMoreData!, error!];
+// }
+
+// class RemoteArticlesLoading {
+//   //extends RemotteArticlesState {
+//   RemoteArticlesLoading(); // : super(null, null, false);
+// }
+
+// class RemoteArticlesDone {
+//   //extends RemotteArticlesState {
+//   RemoteArticlesDone(List<Article> articles, {bool? noMoreData});
+//   // : super(articles: articles, noMoreData: noMoreData!);
+// }
+
+// class RemoteArticlesError {
+//   //extends RemotteArticlesState {
+//   RemoteArticlesError(DioError error); // : super(error: error);
+// }

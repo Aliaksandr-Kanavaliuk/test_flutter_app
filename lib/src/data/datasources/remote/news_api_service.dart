@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+// import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:test_flutter_app/src/core/utils/const.dart';
 import 'package:test_flutter_app/src/data/models/breking_news_response_model.dart';
@@ -19,6 +20,7 @@ part 'news_api_service.g.dart';
 //   });
 // }
 
+//@freezed
 @RestApi(baseUrl: kBaseUrl)
 abstract class NewsApiService {
   factory NewsApiService(Dio dio, {String baseUrl}) = _NewsApiService;

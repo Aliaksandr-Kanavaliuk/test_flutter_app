@@ -25,8 +25,9 @@ class MyApp extends StatelessWidget {
         //   return injector();
         // },
         // create: (_) => injector()..add(const GetArticles()),
-        create: (_) =>
-            injector.get<RemoteArticlesBloc>(), //..add(const GetArticles()),
+        create: (_) => injector.get<RemoteArticlesBloc>()
+          ..add(const RemoteArticlesEvent
+              .getArticles()), //..add(const GetArticles()),
         child: MaterialApp(
           // debugShowCheckedModeBanner: false, //true,
           // home: ,

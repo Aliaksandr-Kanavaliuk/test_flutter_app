@@ -9,7 +9,7 @@ class ArticleRequestParams {
 
   const ArticleRequestParams(
       {this.apiKey = kApiKey,
-      this.country = 'uk',
+      this.country = 'us',
       this.category = 'general',
       this.page = 1,
       this.pageSize = 20});
