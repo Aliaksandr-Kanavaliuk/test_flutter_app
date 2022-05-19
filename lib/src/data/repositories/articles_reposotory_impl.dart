@@ -9,7 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:test_flutter_app/src/data/datasources/remote/news_api_service.dart';
 import 'package:test_flutter_app/src/domain/entities/article.dart';
 import 'package:test_flutter_app/src/core/resources/data_state.dart';
-import 'package:test_flutter_app/src/core/params/article_request.dart';
+import 'package:test_flutter_app/src/core/params/articles_request_params.dart';
 import 'package:test_flutter_app/src/domain/repositories/article_repository.dart';
 
 class ArticlesReposotoryImpl implements ArticleRepository {
@@ -18,8 +18,15 @@ class ArticlesReposotoryImpl implements ArticleRepository {
   const ArticlesReposotoryImpl(this._newsApiService);
 
   @override
+  Future<DataFailed<Article>> getArticleById() async {
+    //try{}
+    // TODO: implement getArticleById
+    throw UnimplementedError();
+  }
+
+  @override
   Future<DataState<List<Article>>> getBreakeingNewArticles(
-    ArticleRequestParams params,
+    ArticlesRequestParams params,
   ) async {
     try {
       final HttpResponse = await _newsApiService.getBreakingNewsArticles(
