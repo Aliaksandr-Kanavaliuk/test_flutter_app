@@ -4,7 +4,8 @@ import 'package:test_flutter_app/src/domain/entities/article.dart';
 
 class ArticleModel extends Article {
   ArticleModel({
-    int? id,
+    // required int id,
+    required String id,
     SourceModel? source,
     String? author,
     String? title,
@@ -13,6 +14,7 @@ class ArticleModel extends Article {
     String? urlToImage,
     String? publishedAt,
     String? content,
+    required int hashCode,
   }) : super(
           id,
           source,
@@ -23,17 +25,8 @@ class ArticleModel extends Article {
           title,
           publishedAt,
           content,
+          hashCode,
         );
-
-  // id: id,
-  // source: source,
-  // author: author,
-  // title: title,
-  // description: description,
-  // url: url,
-  // urlToImage: urlToImage,
-  // publishedAt: publishedAt,
-  // content: content
 
   factory ArticleModel.fromJson(Map<String, dynamic> map) {
     if (map == null) {
@@ -51,6 +44,7 @@ class ArticleModel extends Article {
     }
 
     return ArticleModel(
+        id: map['id'] as String,
         source: SourceModel.fromJson(map['source'] as Map<String, dynamic>),
         author: map['author'] as String,
         title: map['title'] as String,
@@ -58,6 +52,7 @@ class ArticleModel extends Article {
         url: map['url'] as String,
         urlToImage: map['urlToImage'] as String,
         publishedAt: map['publishedAt'] as String,
-        content: map['content'] as String);
+        content: map['content'] as String,
+        hashCode: map['hashCode'] as int);
   }
 }

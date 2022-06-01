@@ -1,25 +1,32 @@
 part of 'article_details_bloc.dart';
 
-abstract class ArticleDetailsState extends Equatable {
-  final Article? article;
-  // final bool? noMoreData;
-  // final DioError? error;
-
-  ArticleDetailsState({this.article});
-
-  @override
-  List<Object> get props => [article!];
+@freezed
+class ArticleDetailsState with _$ArticleDetailsState {
+  const factory ArticleDetailsState.init() = ArticlesDetailsInitState;
+  const factory ArticleDetailsState.markArticleToSave() =
+      ArticleMarkedToSaveState;
+  // const factory ArticleDetailsState.done(
+  //     {required List<Article> articles,
+  //     required bool noMoreData}) = RemoteArticlesDoneState;
+  // const factory ArticleDetailsState.error(DioError error) =
+  //     RemoteArticlesErrorState;
+  // const factory ArticleDetailsState.currentInactivityTime({
+  //   required String currentInactivityTime,
+  // }) = GetInactivityTimeState;
 }
+// @freezed
+// abstract class ArticleDetailsState extends Equatable {
+//   final Article? article;
+//   // final bool? noMoreData;
+//   // final DioError? error;
 
-class ArticleDetailsMarkedToSave extends ArticleDetailsState {
-  ArticleDetailsMarkedToSave();
-}
+//   ArticleDetailsState({this.article});
 
-// class RemoteArticlesDone extends ArticleDetailsState {
-//   RemoteArticlesDone(List<Article> articles, {bool? noMoreData})
-//       : super(articles: articles, noMoreData: noMoreData!);
+//   @override
+//   List<Object> get props => [article!];
 // }
 
-// class RemoteArticlesError extends ArticleDetailsState {
-//   RemoteArticlesError(DioError error) : super(error: error);
+// class ArticleDetailsMarkedToSave extends ArticleDetailsState {
+//   ArticleDetailsMarkedToSave();
 // }
+

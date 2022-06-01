@@ -9,3 +9,5 @@ const String kApiKey = 'ff957763c54c44d8b00e5e082bc76cb0';
 const String kArticlesTableName = 'articles_table';
 
 const String kDatabaseName = 'app_database.db';
+
+const String localStorageName = 'articlesStorage';

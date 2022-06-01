@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class ArticlesAppBar implements PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  CustomAppBar() : super();
+
   @override
-  Size get preferredSize =>
-      preferredSize.isInfinite(); //Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => AppBar().preferredSize;
 
   @override
   Widget build(BuildContext context) {
-    //return Container(); // Your custom widget implementation.
     return AppBar(
       title: const Text(
         'Test Daily News Test',
-        style: TextStyle(color: Colors.amberAccent),
+        style: TextStyle(color: Colors.blueAccent),
       ),
       actions: [
         Builder(
@@ -21,7 +21,7 @@ class ArticlesAppBar implements PreferredSizeWidget {
               padding: EdgeInsets.symmetric(horizontal: 14),
               child: Icon(
                 Icons.bookmark,
-                color: Colors.amberAccent,
+                color: Colors.blueAccent,
               ),
             ),
           ),

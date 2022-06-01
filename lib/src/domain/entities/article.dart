@@ -2,7 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:test_flutter_app/src/domain/entities/source.dart';
 
 class Article extends Equatable {
-  final int? id;
+  final String id;
+//  final int id;
   final Source? source;
   final String? author;
   final String? description;
@@ -11,6 +12,8 @@ class Article extends Equatable {
   final String? title;
   final String? publishedAt;
   final String? content;
+  final int hashCode;
+  //final String? hash
 
   const Article(
     this.id,
@@ -22,6 +25,7 @@ class Article extends Equatable {
     this.title,
     this.publishedAt,
     this.content,
+    this.hashCode,
   );
 
   @override
@@ -34,7 +38,8 @@ class Article extends Equatable {
         url,
         urlToImage,
         publishedAt,
-        content
+        content,
+        hashCode,
       ];
 
   @override

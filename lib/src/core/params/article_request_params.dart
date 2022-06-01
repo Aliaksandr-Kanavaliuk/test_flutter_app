@@ -6,11 +6,13 @@ class ArticleRequestParams {
   final String category;
   final int page;
   final int pageSize;
+  final String itemId;
 
   const ArticleRequestParams(
       {this.apiKey = kApiKey,
+      this.itemId = '',
       this.country = 'us',
       this.category = 'general',
       this.page = 1,
-      this.pageSize = 20});
+      this.pageSize = 1});
 }
