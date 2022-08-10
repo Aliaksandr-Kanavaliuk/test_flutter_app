@@ -1,138 +1,142 @@
-import 'dart:developer';
-
+// @dart=2.9
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:test_flutter_app/counter.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:global_configuration/global_configuration.dart';
+import 'package:go_router/go_router.dart';
+// import 'package:path/path.dart';
+// import 'package:sqflite/sqflite.dart';
+// import 'package:test_flutter_app/src/config/routes/app_routes.dart';
+// import 'package:test_flutter_app/src/config/routes/go_router.dart';
+// import 'package:test_flutter_app/src/config/themes/app_theme.dart';
+import 'package:test_flutter_app/src/injector.dart';
+import 'package:test_flutter_app/src/presentation/article_details/article_detail_view.dart';
+import 'package:test_flutter_app/src/presentation/pages/article_details_page.dart';
+// import 'package:test_flutter_app/src/presentation/pages/article_list_page.dart';
+// import 'package:test_flutter_app/src/presentation/remote_articles/remote_articles_bloc.dart';
 
-final counter = Counter();
+// import 'src/core/utils/const.dart';
 
-void main() {
-  runApp(const MyApp());
+// import 'package:flutter/material.dart';
+// import 'package:navigation_drawer_menu/navigation_drawer.dart';
+import 'package:navigation_drawer_menu/navigation_drawer_menu.dart';
+// import 'package:navigation_drawer_menu/navigation_drawer_menu_frame.dart';
+// import 'package:navigation_drawer_menu/navigation_drawer_state.dart';
+
+const alarmValueKey = ValueKey('Alarm');
+const todoValueKey = ValueKey('Todo');
+const photoValueKey = ValueKey('Photo');
+
+final Map<Key, MenuItemContent> menuItems = {
+  alarmValueKey: MenuItemContent(
+      menuItem: MenuItemDefinition("Alarm", alarmValueKey,
+          iconData: Icons.access_alarm)),
+  todoValueKey: MenuItemContent(
+      menuItem: MenuItemDefinition("Todo", todoValueKey,
+          iconData: Icons.ad_units_rounded)),
+  photoValueKey: MenuItemContent(
+      menuItem: MenuItemDefinition("Photo", photoValueKey,
+          iconData: Icons.add_a_photo_outlined))
+};
+
+// const title = 'navigation_drawer_menu Demo';
+const String title = 'GoRouter Example: Declarative Routes';
+const menuColor = Color(0xFF424242);
+Future<void> main() async {
+  // await GlobalConfiguration().loadFromAsset("main_config");
+  WidgetsFlutterBinding.ensureInitialized();
+
+  /// TODO make sure that it cannot be mooved into local_db.dart
+  // final database = openDatabase(
+  //   // Set the path to the database. Note: Using the `join` function from the
+  //   // `path` package is best practice to ensure the path is correctly
+  //   // constructed for each platform.
+  //   join(await getDatabasesPath(), 'doggie_database.db'),
+  // );
+  await initializeDependancies();
+
+  runApp(MyApp());
 }
+
+final GoRouter _router = GoRouter(
+  routes: <GoRoute>[
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const ArticleDetailsPageScreen();
+      },
+      routes: <GoRoute>[
+        GoRoute(
+          path: 'page2',
+          builder: (BuildContext context, GoRouterState state) {
+            return ArticleDetailView(articleId: state.extra as String);
+          },
+        ),
+      ],
+    ),
+  ],
+);
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Test MobX',
-
-      ///'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(
-        title: 'MobX test Title',
-      ),
+    return MaterialApp.router(
+      routeInformationProvider: _router.routeInformationProvider,
+      routeInformationParser: _router.routeInformationParser,
+      routerDelegate: _router.routerDelegate,
+      title: title,
     );
   }
-}
-
-class MyHomePage extends StatelessWidget {
-  //StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('data test'),
-            Observer(builder: (_) => Text('${counter.value}'))
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: counter.increment,
-        tooltip: 'PLUS',
-        child: Icon(Icons.ac_unit),
-      ),
-    );
-  }
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  // @override
-  // State<MyHomePage> createState() => _MyHomePageState();
-}
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   int _counter = 0;
-
-//   void _incrementCounter() {
-//     setState(() {
-//       // This call to setState tells the Flutter framework that something has
-//       // changed in this State, which causes it to rerun the build method below
-//       // so that the display can reflect the updated values. If we changed
-//       // _counter without calling setState(), then the build method would not be
-//       // called again, and so nothing would appear to happen.
-//       _counter++;
-//     });
-//   }
 
   // @override
   // Widget build(BuildContext context) {
-  //   // This method is rerun every time setState is called, for instance as done
-  //   // by the _incrementCounter method above.
-  //   //
-  //   // The Flutter framework has been optimized to make rerunning build methods
-  //   // fast, so that you can just rebuild anything that needs updating rather
-  //   // than having to individually change instances of widgets.
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       // Here we take the value from the MyHomePage object that was created by
-  //       // the App.build method, and use it to set our appbar title.
-  //       title: Text(widget.title),
-  //     ),
-  //     body: Center(
-  //       // Center is a layout widget. It takes a single child and positions it
-  //       // in the middle of the parent.
-  //       child: Column(
-  //         // Column is also a layout widget. It takes a list of children and
-  //         // arranges them vertically. By default, it sizes itself to fit its
-  //         // children horizontally, and tries to be as tall as its parent.
-  //         //
-  //         // Invoke "debug painting" (press "p" in the console, choose the
-  //         // "Toggle Debug Paint" action from the Flutter Inspector in Android
-  //         // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-  //         // to see the wireframe for each widget.
-  //         //
-  //         // Column has various properties to control how it sizes itself and
-  //         // how it positions its children. Here we use mainAxisAlignment to
-  //         // center the children vertically; the main axis here is the vertical
-  //         // axis because Columns are vertical (the cross axis would be
-  //         // horizontal).
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: <Widget>[
-  //           const Text(
-  //             'You have pushed the button this many times:',
-  //           ),
-  //           Text(
-  //             '$_counter',
-  //             style: Theme.of(context).textTheme.headline4,
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //     floatingActionButton: FloatingActionButton(
-  //       onPressed: _incrementCounter,
-  //       tooltip: 'Increment',
-  //       child: const Icon(Icons.add),
-  //     ), // This trailing comma makes auto-formatting nicer for build methods.
-  //   );
+  //   return BlocProvider<RemoteArticlesBloc>(
+  //       create: (_) => injector.get<RemoteArticlesBloc>()
+  //         ..add(const RemoteArticlesEvent
+  //             .getArticles()), //..add(const GetArticles()),
+  //       child: MaterialApp(
+  //         title: kMaterialAppTitle,
+  //         initialRoute: '/',
+  //         onGenerateRoute: (routheSetting) {
+  //           return AppRoutes.onGenerateRoutes(routheSetting);
+  //         },
+  //         theme: AppTheme.Light,
+  //       ));
   // }
+}
+
+  // Widget getMenu(BuildContext context) =>
+  //     Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+  //       NavigationDrawerMenu(
+  //           highlightColor: Theme.of(context).indicatorColor,
+  //           onSelectionChanged: (c, key) {
+  //             state.selectedMenuKey = key;
+  //             state.closeDrawer(c);
+  //             setState(() {});
+  //           },
+  //           menuItems: menuItems.values.toList(),
+  //           selectedMenuKey: state.selectedMenuKey,
+  //           itemPadding: const EdgeInsets.only(left: 5, right: 5),
+  //           buildMenuButtonContent: (menuItemDefinition, isSelected,
+  //                   buildContentContext) =>
+  //               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+  //                 Icon(menuItemDefinition.iconData,
+  //                     color: isSelected
+  //                         ? Theme.of(buildContentContext).backgroundColor
+  //                         : Theme.of(buildContentContext)
+  //                             .textTheme
+  //                             .bodyText2!
+  //                             .color),
+  //                 if (state.menuMode(context) != MenuMode.Thin)
+  //                   const SizedBox(
+  //                     width: 10,
+  //                   ),
+  //                 if (state.menuMode(context) != MenuMode.Thin)
+  //                   Text(menuItemDefinition.text,
+  //                       style: isSelected
+  //                           ? Theme.of(context).textTheme.bodyText2!.copyWith(
+  //                               color: Theme.of(buildContentContext)
+  //                                   .backgroundColor)
+  //                           : Theme.of(buildContentContext).textTheme.bodyText2)
+  //               ]))
+  //     ]);
 //}
