@@ -1,7 +1,9 @@
-// import 'dart:js_util';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:test_flutter_app/src/core/utils/const.dart';
+import 'package:test_flutter_app/src/data/datasources/local_storage/local_db.dart';
 import 'package:test_flutter_app/src/data/datasources/local_storage/local_starage.dart';
 import 'package:test_flutter_app/src/data/datasources/remote/news_api_service.dart';
 import 'package:test_flutter_app/src/data/repositories/articles_reposotory_impl.dart';
@@ -13,20 +15,10 @@ import 'package:test_flutter_app/src/presentation/remote_articles/remote_article
 final injector = GetIt.instance;
 
 Future<void> initializeDependancies() async {
-  // injector.registerSingleton<Dio>(Dio());
+  // final database = openDatabase(
+  //   join(await getDatabasesPath(), 'articles_local_database.db'),
+  // );
 
-  // // Dependencies
-  // injector.registerSingleton<NewsApiService>(NewsApiService(injector()));
-  // injector
-  //     .registerSingleton<ArticleRepository>(ArticlesReposotoryImpl(injector()));
-
-  // // UseCases
-  // injector
-  //     .registerSingleton<GetArticlesUsecases>(GetArticlesUsecases(injector()));
-
-  // // Blocs
-  // injector.registerFactory<RemoteArticlesBloc>(
-  //     () => RemoteArticlesBloc(injector()));
   injector
     ..registerSingleton<Dio>(
       Dio(BaseOptions(baseUrl: kBaseUrl)),
@@ -40,13 +32,10 @@ Future<void> initializeDependancies() async {
     ..registerSingleton<GetArticlesUsecases>(
       GetArticlesUsecases(injector.get<ArticleRepository>()),
     )
-    ..registerSingleton<ArticlesLocalStarage>(ArticlesLocalStarage()
-        //injector.get<ArticlesLocalStarage>(),
-        )
-    //..registerSingleton<>(instance),
+    ..registerSingleton<ArticlesLocalDb>(ArticlesLocalDb())
+    ..registerSingleton<ArticlesLocalStarage>(ArticlesLocalStarage())
     ..registerFactory<RemoteArticlesBloc>(
       () => RemoteArticlesBloc(injector.get<GetArticlesUsecases>()),
     )
-    //..registerFactory<ArticleDetailsBloc>(() => ArticleDetailsBloc());
     ..registerFactory<ArticleDetailsBloc>(() => ArticleDetailsBloc());
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ArticleDetailsWidget extends StatelessWidget {
-  ArticleDetailsWidget(int itenId) : super() {
-    //final rep
-  }
+  ArticleDetailsWidget(int itenId) : super() {}
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +9,5 @@ class ArticleDetailsWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [],
     );
-    // TODO: implement build
-    throw UnimplementedError();
   }
 }

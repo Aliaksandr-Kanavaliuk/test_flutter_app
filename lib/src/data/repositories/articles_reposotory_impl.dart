@@ -1,13 +1,11 @@
 //import 'dart:html';
 
-// import 'dart:_internal';
-
 import 'dart:io';
-
 import 'package:dio/dio.dart';
+// import 'package:test_flutter_app/src/data/datasources/local_storage/local_db.dart';
 import 'package:test_flutter_app/src/data/datasources/local_storage/local_starage.dart';
-//import 'package:retrofit/dio.dart';
 import 'package:test_flutter_app/src/data/datasources/remote/news_api_service.dart';
+import 'package:test_flutter_app/src/data/repositories/articles_reposotory_impl.mapping.dart';
 import 'package:test_flutter_app/src/domain/entities/article.dart';
 import 'package:test_flutter_app/src/core/resources/data_state.dart';
 import 'package:test_flutter_app/src/core/params/articles_request_params.dart';
@@ -21,8 +19,6 @@ class ArticlesReposotoryImpl implements ArticleRepository {
 
   @override
   Future<DataFailed<Article>> getArticleById() async {
-    //try{}
-    // TODO: implement getArticleById
     throw UnimplementedError();
   }
 
@@ -41,11 +37,15 @@ class ArticlesReposotoryImpl implements ArticleRepository {
 
       if (HttpResponse.response.statusCode == HttpStatus.ok &&
           HttpResponse.data.articles != null) {
-        // ArticlesLocalStarage.putListToStorage(HttpResponse.data.articles!);
-        final ArticlesLocalStarage _t = injector.get<ArticlesLocalStarage>();
-        // _t
-        ArticlesLocalStarage.putListToStorage(HttpResponse.data.articles!);
-        return DataSuccess(HttpResponse.data.articles!);
+        final ArticlesLocalStarage _st = injector.get<ArticlesLocalStarage>();
+        //final ArticlesLocalDb _db = injector.get<ArticlesLocalDb>();
+
+        final articles = HttpResponse.data.articles ?? [];
+        final articleEntities = articles.map((e) => e.toEntity()).toList();
+        //await _db.insertListOfArticles(articleEntities);
+        await _st.saveListOfArticlesToStorage(articleEntities);
+
+        return DataSuccess(articleEntities);
       } else {
         return DataFailed(
           DioError(

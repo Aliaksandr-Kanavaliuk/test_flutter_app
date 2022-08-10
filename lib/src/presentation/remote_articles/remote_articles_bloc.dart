@@ -30,7 +30,7 @@ class RemoteArticlesBloc
   int _page = 1;
   static const int _pageSize = 20;
 
-  _GetArticlesEvent newMethod(_GetArticlesEvent event) => event;
+  // _GetArticlesEvent newMethod(_GetArticlesEvent event) => event;
 
   Future<void> _getBreakingNewsArticle(
       RemoteArticlesEvent event, Emitter<RemotteArticlesState> emit) async {

@@ -3,6 +3,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:test_flutter_app/src/config/routes/go_router.dart';
 import 'package:test_flutter_app/src/core/bloc/bloc_with_state.dart';
 import 'package:test_flutter_app/src/domain/entities/article.dart';
 import 'package:test_flutter_app/src/presentation/common/app_bar_widget.dart';
@@ -39,9 +41,10 @@ class BreqakingNewsView extends StatelessWidget {
     //Article article,
   ) {
     // arguments: {'mortgageModel': mortgageModel}
-    Navigator.pushNamed(context, '/ArticleDetailView',
-        //arguments: {'article': article});
-        arguments: {'articleId': articleId});
+    //Navigator.pushNamed(context, '/ArticleDetailView',
+    //arguments: {'article': article});
+    GoRouter.of(context).go('/page2', extra: articleId);
+    // arguments: articleId);
 //        arguments: {'articleId': article.id.toString()});
   }
 
@@ -57,8 +60,8 @@ class BreqakingNewsView extends StatelessWidget {
     return ListView.builder(
       itemBuilder: (context, index) => ArticleWidget(
         article: articles[index],
-        onArticlePressed: (_) => _onArticlePressed(
-            context, articles[index].publishedAt!), //.source!.id!),
+        onArticlePressed: (_) =>
+            _onArticlePressed(context, articles[index].id), //.source!.id!),
       ),
       controller: scrollController,
       // children: [

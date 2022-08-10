@@ -3,7 +3,7 @@ import 'package:test_flutter_app/src/data/models/article_model.dart';
 class BreakingNewsResponseModel {
   final String? status;
   final int? totalrRsults;
-  final List<ArticleModel>? articles;
+  final List<ArticleModelApi>? articles;
 
   BreakingNewsResponseModel({
     this.status,
@@ -15,9 +15,9 @@ class BreakingNewsResponseModel {
     return BreakingNewsResponseModel(
       status: json['status'] as String,
       totalrRsults: json['totalrRsults'] as int,
-      articles: List<ArticleModel>.from(
+      articles: List<ArticleModelApi>.from(
         (json['articles'] as List<dynamic>).map(
-          (e) => ArticleModel.fromJson(e as Map<String, dynamic>),
+          (e) => ArticleModelApi.fromJson(e as Map<String, dynamic>),
         ),
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test_flutter_app/src/domain/entities/article.dart';
 
@@ -6,7 +6,7 @@ class ArticleWidget extends StatelessWidget {
   final Article? article;
   final bool isRemovable;
   final void Function(Article article)? onRemove;
-  final void Function(Article Article)? onArticlePressed;
+  final void Function(String articleId)? onArticlePressed;
 
   const ArticleWidget({
     Key? key,
@@ -53,14 +53,14 @@ class ArticleWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              article!.title ?? '',
+              article!.title,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(top: 5),
-                child: Text(article!.description ?? ''),
+                child: Text(article!.description),
               ),
             ),
           ],
@@ -71,7 +71,7 @@ class ArticleWidget extends StatelessWidget {
 
   void _onTap() {
     if (onArticlePressed != null) {
-      onArticlePressed!(article!);
+      onArticlePressed!(article!.id);
     }
   }
 

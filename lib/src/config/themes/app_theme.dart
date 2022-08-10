@@ -9,7 +9,7 @@ class AppTheme {
       ),
       scaffoldBackgroundColor: Colors.amber,
       primaryColor: Colors.redAccent,
-      accentColor: Colors.blueAccent,
+      // accentColor: Colors.blueAccent,
       splashColor: Colors.greenAccent,
       fontFamily: 'IBM',
     );
